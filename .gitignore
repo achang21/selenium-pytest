@@ -1,0 +1,80 @@
+# ------------------------------------
+# Python cache / compiled files
+# ------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ------------------------------------
+# Virtual environments
+# ------------------------------------
+venv/
+.env/
+.venv/
+env/
+ENV/
+
+# ------------------------------------
+# Package / build artifacts
+# ------------------------------------
+build/
+dist/
+develop-eggs/
+.eggs/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# ------------------------------------
+# Pytest / coverage
+# ------------------------------------
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# ------------------------------------
+# Jupyter Notebook checkpoints
+# ------------------------------------
+.ipynb_checkpoints/
+
+# ------------------------------------
+# Environment & secrets
+# ------------------------------------
+*.env
+*.key
+*.pem
+*.token
+
+# ------------------------------------
+# Logs
+# ------------------------------------
+*.log
+
+# ------------------------------------
+# IDE / Editor settings
+# ------------------------------------
+.vscode/
+.idea/
+*.swp
+
+# ------------------------------------
+# Local databases
+# ------------------------------------
+*.sqlite3
+
+# ------------------------------------
+# Docker
+# ------------------------------------
+docker-compose.override.yml
+
+# ------------------------------------
+# mypy / pylance / type checking
+# ------------------------------------
+.mypy_cache/
+.dmypy.json
+.pyre/
+/allure-report/
+/allure-results/
+/screenshots/
+.DS_Store
