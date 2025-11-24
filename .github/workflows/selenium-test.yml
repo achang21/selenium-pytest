@@ -25,7 +25,7 @@ concurrency:
   cancel-in-progress: false
   
 jobs:
-  build:
+  selenium_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,6 +39,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Write the .env file from GitHub secret
+      run: |
+          echo '${{ secrets.PYTEST_ENV_CI }}' > .env
     - name: Configure Test Env and Browser
       env:
         TEST_ENV: "saucedemo"
