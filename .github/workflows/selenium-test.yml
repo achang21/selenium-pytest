@@ -1,0 +1,52 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Selenium Test with PyTest
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_env:
+        description: Select the Env to run
+        type: choice
+        default: saucedemo
+        options:
+          - saucedemo
+      browser:
+        description: The browser to run test
+        type: choice
+        default: chrome
+        options:
+          - chrome
+          - firefox
+# To allow only one run at a time based on the env it runs in
+concurrency:
+  group: 'selenium-test-${{github.event.inputs.test_env}}-${{github.event.inputs.browser}}'
+  cancel-in-progress: false
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.14
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.14"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Configure Test Env and Browser
+      env:
+        TEST_ENV: "saucedemo"
+        BROWSER: "chrome"
+      run: |
+        echo "TEST_ENV=${{ github.event.inputs.test_env || env.DEFAULT_TEST_ENV }}" >> $GITHUB_ENV
+        echo "BROWSER=${{ github.event.inputs.browser || env.BROWSER }}" >> $GITHUB_ENV
+      
+    - name: Test with pytest
+      run: |
+        pytest tests --browser ${{env.BROWSER}} -n 2
