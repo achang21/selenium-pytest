@@ -34,21 +34,21 @@ def driver(request):
             "profile.password_manager_enabled":False,
             "profile.password_manager_leak_detection":False,
         })
-        # # Option1: Use ChromeDriverManager
-        # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        # Option1: Use ChromeDriverManager
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 
-        # Option2: Use the downloaded chrome driver
-        chrome_driver = Path(os.getcwd(),'drivers/chromedriver')
-        driver=webdriver.Chrome(service=ChromeService(chrome_driver),options=options)
+        # # Option2: Use the downloaded chrome driver
+        # chrome_driver = Path(os.getcwd(),'drivers/chromedriver')
+        # driver=webdriver.Chrome(service=ChromeService(chrome_driver),options=options)
 
     elif browser == "firefox":
         options = FirefoxOptions()
-        # # Option1: Use FirefoxDriverManager
-        # driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
+        # Option1: Use FirefoxDriverManager
+        driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
 
-        # Option2: Use the downloaded chrome driver
-        ff_driver = Path(os.getcwd(),'drivers/geckodriver')
-        driver=webdriver.Firefox(service=FirefoxService(ff_driver),options=options)
+        # # Option2: Use the downloaded chrome driver
+        # ff_driver = Path(os.getcwd(),'drivers/geckodriver')
+        # driver=webdriver.Firefox(service=FirefoxService(ff_driver),options=options)
     else:
         raise Exception(f"[Error] ****** Browser type:{browser} not supported!")
 
