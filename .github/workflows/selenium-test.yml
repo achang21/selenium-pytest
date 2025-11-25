@@ -29,7 +29,7 @@ jobs:
     timeout-minutes: 20
     runs-on: ubuntu-latest
     continue-on-error: true
-    container: selenium/standalone-chrome-for-testing:nightly
+#    container: selenium/standalone-chrome-for-testing:nightly
 
     steps:
     - uses: actions/checkout@v4
