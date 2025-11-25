@@ -1,0 +1,19 @@
+Test test_goto_product_details failed.
+
+Error:driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="f7b604de6dd2fbbfd01bb1a0e0a04d24")>
+base_url = 'https://www.saucedemo.com/'
+credentials = {'password': 'secret_sauce', 'username': 'standard_user'}
+
+    def test_goto_product_details(driver,base_url,credentials):
+        login=LoginPage(driver)
+        login.load(base_url)
+        login.login(credentials["username"],credentials["password"])
+    
+        products_page=ProductsPage(driver)
+        products_page.open_product('Sauce Labs Backpack')
+>       assert 'error_url' in driver.current_url, ' ****** URL does not match.'
+E       AssertionError:  ****** URL does not match.
+E       assert 'error_url' in 'https://www.saucedemo.com/inventory-item.html?id=4'
+E        +  where 'https://www.saucedemo.com/inventory-item.html?id=4' = <selenium.webdriver.chrome.webdriver.WebDriver (session="f7b604de6dd2fbbfd01bb1a0e0a04d24")>.current_url
+
+tests/test_login.py:21: AssertionError

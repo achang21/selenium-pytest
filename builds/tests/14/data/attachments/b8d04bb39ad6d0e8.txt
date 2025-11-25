@@ -1,0 +1,17 @@
+Test test_login2_fail failed.
+
+Error:driver = <selenium.webdriver.chrome.webdriver.WebDriver (session="172c7f37cb0d42a5f081f11c395c2c62")>
+
+    @pytest.mark.title('Check username input in login page')
+    @pytest.mark.severity(allure.severity_level.NORMAL)
+    def test_login2_fail(driver):
+        driver.get('https://www.saucedemo.com/')
+>       assert driver.find_element(By.ID, 'user-name').is_displayed() == False
+E       assert True == False
+E        +  where True = is_displayed()
+E        +    where is_displayed = <selenium.webdriver.remote.webelement.WebElement (session="172c7f37cb0d42a5f081f11c395c2c62", element="f.20BDF2D442463079A31BCC1518CAABD9.d.B4098D49E804FA8E6709973C0416F8A7.e.2")>.is_displayed
+E        +      where <selenium.webdriver.remote.webelement.WebElement (session="172c7f37cb0d42a5f081f11c395c2c62", element="f.20BDF2D442463079A31BCC1518CAABD9.d.B4098D49E804FA8E6709973C0416F8A7.e.2")> = find_element('id', 'user-name')
+E        +        where find_element = <selenium.webdriver.chrome.webdriver.WebDriver (session="172c7f37cb0d42a5f081f11c395c2c62")>.find_element
+E        +        and   'id' = By.ID
+
+tests/test_allure_failed_attach_screenshot.py:16: AssertionError
