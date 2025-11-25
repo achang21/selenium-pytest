@@ -5,6 +5,7 @@ import allure
 import pytest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.os_manager import ChromeType
 from webdriver_manager.firefox import GeckoDriverManager
 
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -29,13 +30,18 @@ def driver(request):
     if browser == "chrome":
         options=ChromeOptions()
         options.add_argument('--disable-extensions')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--headless')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--ignore-certificate-errors')
         options.add_experimental_option("prefs",{
             "credentials_enable_service":False,
             "profile.password_manager_enabled":False,
             "profile.password_manager_leak_detection":False,
         })
         # Option1: Use ChromeDriverManager
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install()), options=options)
 
         # # Option2: Use the downloaded chrome driver
         # chrome_driver = Path(os.getcwd(),'drivers/chromedriver')
