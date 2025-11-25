@@ -56,3 +56,9 @@ jobs:
     - name: Test with pytest
       run: |
         pytest tests --browser ${{env.BROWSER}} -n 2
+
+    - name: Publish Allure Report
+      uses: simple-elf/allure-report-action@v1.9
+      with:
+        allure_results: allure-results
+        gh_pages: gh-pages
