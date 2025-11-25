@@ -23,7 +23,12 @@ on:
 concurrency:
   group: 'selenium-test-${{github.event.inputs.test_env}}-${{github.event.inputs.browser}}'
   cancel-in-progress: false
-  
+
+permissions: # 全局权限配置
+  contents: write # 允许读写仓库内容（用于推送代码）
+  issues: write   # 允许操作Issues（创建/编辑）
+  pull-requests: read # 仅允许读取PR信息
+
 jobs:
   selenium_test:
     timeout-minutes: 20
