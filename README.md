@@ -13,14 +13,14 @@ This is a demo for Selenium, PyTest, Github actions, parallel testing, publish a
 - Only "saucedemo" Env for demo purpose
 - Support browser: chrome and firefox, but firefox not be integrated to pipeline
 
-## Run at local
-- Needs to create a .env file with content:
+## Run tests at local
+- Needs to create a .env(root folder) file with content:
 ```
 BASE_URL=https://www.saucedemo.com/
 USERNAME=standard_user
 PASSWORD=secret_sauce
 ```
 - Run with command
-```angular2html
+```
 pytest tests
 ```
