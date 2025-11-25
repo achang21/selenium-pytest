@@ -27,7 +27,7 @@ concurrency:
 jobs:
   selenium_test:
     timeout-minutes: 20
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     continue-on-error: true
 #    container: selenium/standalone-chrome-for-testing:nightly
 
@@ -37,6 +37,8 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.14"
+    - name: Install software
+      run: sudo apt-get install -y chromium-browser
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
