@@ -6,6 +6,7 @@ This is a demo for Selenium, PyTest, Github actions, parallel testing, publish a
 - Selenium tests with PyTest(POM, fixtures designed)
 - Use pytest-xdist for running test in parallel
 - Take screenshot while test failed and attach it to Allure report
+- Integrate Allure report
 - Integrate with GitHub Actions for CI/CD
 - Publish Allure report to gh-pages after testing finished
 
