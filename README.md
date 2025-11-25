@@ -21,6 +21,10 @@ BASE_URL=https://www.saucedemo.com/
 USERNAME=standard_user
 PASSWORD=secret_sauce
 ```
+- Install dependecies
+```
+pip install -r requirements.txt
+```
 - Run with command
 ```
 pytest tests
