@@ -31,5 +31,5 @@ pip install -r requirements.txt
 ```
 - Run with command
 ```
-pytest tests
+pytest tests -n 2 --browser chrome --env qa -m testDemo1
 ```
