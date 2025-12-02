@@ -19,22 +19,36 @@ on:
         options:
           - chrome
           - firefox
+      test_tags:
+        description: Tags to run specific tests
+        type: choice
+        default: 'testDemo1'
+        options:
+          - 'testDemo1'
+          - 'testDemo2'
+      parallel:
+        description: Run tests in parallel
+        type: choice
+        default: '1'
+        options:
+          - '1'
+          - '2'
+          - '3'
 # To allow only one run at a time based on the env it runs in
 concurrency:
   group: 'selenium-test-${{github.event.inputs.test_env}}-${{github.event.inputs.browser}}'
   cancel-in-progress: false
 
-permissions: # 全局权限配置
-  contents: write # 允许读写仓库内容（用于推送代码）
-  issues: write   # 允许操作Issues（创建/编辑）
-  pull-requests: read # 仅允许读取PR信息
+permissions:
+  contents: write # Allows to read and write repository contents (for pushing code)
+  issues: write   # Allows to manage Issues (create/edit)
+  pull-requests: read # Allows to read PR information
 
 jobs:
   selenium_test:
     timeout-minutes: 20
     runs-on: ubuntu-latest
     continue-on-error: true
-#    container: selenium/standalone-chrome-for-testing:nightly
 
     steps:
     - uses: actions/checkout@v4
@@ -56,14 +70,21 @@ jobs:
       env:
         TEST_ENV: "saucedemo"
         BROWSER: "chrome"
+        TEST_TAGS: "testDemo1"
+        PARALLEL: "1"
       run: |
         echo "TEST_ENV=${{ github.event.inputs.test_env || env.DEFAULT_TEST_ENV }}" >> $GITHUB_ENV
         echo "BROWSER=${{ github.event.inputs.browser || env.BROWSER }}" >> $GITHUB_ENV
+        echo "TEST_TAGS=${{ github.event.inputs.test_tags || env.TEST_TAGS }}" >> $GITHUB_ENV
+        echo "PARALLEL=${{ github.event.inputs.parallel || env.PARALLEL }}"
+    - name: Init password via secrets
+      run: |
+        sed -i -e 's/\"PASSWORD\".*/\"PASSWORD\"=\"'${{secrets.Test_PWD}}'\",/' config/env/${{env.TEST_ENV}}.env
       
     - name: Test with pytest
       continue-on-error: true
       run: |
-        pytest tests --browser ${{env.BROWSER}} -n 2
+        pytest tests --env ${{env.TEST_ENV}} --browser ${{env.BROWSER}} -n ${{env.PARALLEL}} -m ${{env.TEST_TAGS}}
 
     - name: Load Allure test report history
       uses: actions/checkout@v4

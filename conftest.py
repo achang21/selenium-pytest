@@ -62,10 +62,6 @@ def driver(request):
     driver.quit()
 
 @pytest.fixture
-def base_url():
-    return os.getenv("BASE_URL")
-
-@pytest.fixture
 def credentials():
     return {
         "username":os.getenv("USERNAME"),
@@ -122,7 +118,7 @@ def pytest_runtest_makereport(item, call):
                         attachment_type=allure.attachment_type.PNG
                     )
 def pytest_addoption(parser):
-    parser.addoption('--env',action='store',default='qa',help='Environment: qa/dev/staging/prod')
+    parser.addoption('--env',action='store',default='qa',help='Environment: qa/dev')
     parser.addoption('--browser',action='store',default='chrome',help='Browser: chrome/firefox/edge')
 
 @pytest.fixture(scope="session")
@@ -132,3 +128,14 @@ def env(request):
 @pytest.fixture(scope="session")
 def browser(request):
     return request.config.getoption('--browser')
+
+@pytest.fixture(scope="session")
+def base_url(env):
+    env_file = Path('.') / f'config/env/{env}.env'  # e.g. .env.staging
+    if not env_file.exists():
+        raise FileNotFoundError(f"Environment file not found: {env_file}")
+    load_dotenv(dotenv_path=env_file)
+    base_url = os.getenv('BASE_URL')
+    if not base_url:
+        raise RuntimeError(f"BASE_URL not set in {env_file}")
+    return base_url
