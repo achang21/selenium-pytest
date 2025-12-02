@@ -1,6 +1,6 @@
 # Selenium Pytest Demo Project
 
-This is a demo for Selenium, PyTest, Github actions, parallel testing, publish allure report with gh-page
+This is a demo for Selenium, PyTest, Github actions, parallel testing, publish allure report with gh-pages
 
 ## Key points
 - Selenium tests with PyTest(POM, fixtures designed)
