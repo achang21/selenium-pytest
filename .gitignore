@@ -78,3 +78,5 @@ docker-compose.override.yml
 /allure-results/
 /screenshots/
 .DS_Store
+!config/env/
+!config/env/**
