@@ -4,22 +4,26 @@ This is a demo for Selenium, PyTest, Github actions, parallel testing, publish a
 
 ## Key points
 - Selenium tests with PyTest(POM, fixtures designed)
+- Select Env, browser, tags, parallel jobs while run workflow
 - Use pytest-xdist for running test in parallel
 - Take screenshot while test failed and attach it to Allure report
 - Integrate Allure report
 - Integrate with GitHub Actions for CI/CD
 - Publish Allure report to gh-pages after testing finished
-
+- Use Github Secrets to store password and use it in workflow
+- Use logic for updating Env while run workflow
+## See screenshot
+![Run workflow Settings](images/run_workflow.png)
+![Test result summary](images/result_summary.png)
+![Allure report](images/allure-report.png)
 ## Notes
-- Only "saucedemo" Env for demo purpose
+- Env: qa for "saucedemo" for demo purpose
 - Support browser: chrome and firefox, but firefox not be integrated to pipeline
 
 ## Run tests at local
-- Needs to create a .env(root folder) file with content:
+- Needs to replace the password in config/env/{env}.env file:
 ```
-BASE_URL=https://www.saucedemo.com/
-USERNAME=standard_user
-PASSWORD=secret_sauce
+PASSWORD=your_password_here
 ```
 - Install dependecies
 ```
