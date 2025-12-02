@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: Selenium Test with PyTest
+name: Selenium PyTest
 
 on:
   workflow_dispatch:
@@ -9,9 +9,10 @@ on:
       test_env:
         description: Select the Env to run
         type: choice
-        default: saucedemo
+        default: qa
         options:
-          - saucedemo
+          - qa
+          - dev
       browser:
         description: The browser to run test
         type: choice
@@ -68,7 +69,7 @@ jobs:
           echo '${{ secrets.PYTEST_ENV_CI }}' > .env
     - name: Configure Test Env and Browser
       env:
-        TEST_ENV: "saucedemo"
+        TEST_ENV: "qa"
         BROWSER: "chrome"
         TEST_TAGS: "testDemo1"
         PARALLEL: "1"
