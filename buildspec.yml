@@ -1,6 +1,17 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      python: 3.14.0
+      java: corretto17  # Java is a must，or allure command can not run
+    commands:
+      - pip install pytest allure-pytest
+      # Install Allure commandline tool (to convert json results to HTML report)
+      - export ALLURE_VERSION=2.21.0
+      - wget https://github.com/allure-framework/allure2/releases/download/$ALLURE_VERSION/allure-$ALLURE_VERSION.tgz
+      - tar -zxvf allure-$ALLURE_VERSION.tgz -C /opt/
+      - ln -s /opt/allure-$ALLURE_VERSION/bin/allure /usr/bin/allure
   build:
     commands:
       - echo "Install python dependencies"
