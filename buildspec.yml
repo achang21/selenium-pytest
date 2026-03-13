@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      # 1. Run tests with pytest
+      - pytest tests --env qa --browser chrome -n 1 || true
+
+  post_build:
+    commands:
+      # 2. Generate HTML report to folder: allure-report
+      - allure generate ./allure-results -o ./allure-report --clean
+      # 3. 把生成的网页同步到你的 S3 存储桶（请替换下方的 bucket 名字）
+      # 3. Move the allure report to your S3, and replace the bucket name below
+      # THis --acl public-read is for clicking the link and viewing the report without signing in to AWS
+      - aws s3 sync ./allure-report s3://allure-report-cheers-255737342472-eu-north-1-an/report-$CODEBUILD_BUILD_NUMBER --acl public-read
+      - echo "Report URL：http://allure-report-cheers-255737342472-eu-north-1-an.s3-website-eu-north-1-an.amazonaws.com/report-$CODEBUILD_BUILD_NUMBER/index.html"
