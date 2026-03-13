@@ -3,8 +3,12 @@ version: 0.2
 phases:
   build:
     commands:
-      # 1. Run tests with pytest
-      - pytest tests --env qa --browser chrome -n 1 || true
+      - echo "Install python dependencies"
+      - python -m pip install --upgrade pip
+      - if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      # - echo "Run tests"
+      - echo "Selenium pytest tests"
+      - pytest tests --env qa --browser chrome -n 1 -m testDemo1 || true
 
   post_build:
     commands:
