@@ -29,14 +29,14 @@ phases:
       # 3. Print the report URL
       - REPORT_URL="http://allure-report-cheers-255737342472-eu-north-1-an.s3-website.eu-north-1.amazonaws.com/report-$CODEBUILD_BUILD_NUMBER/index.html"
       - echo REPORT_URL
-      # 4. 发送带有颜色和按钮的 Slack 消息
+      # 4. Send Slack message with color and button
       - |
         if [ "$CODEBUILD_BUILD_SUCCEEDED" = "1" ]; then
-        COLOR="#36a64f"
-        STATUS="SUCCESS ✅"
+          COLOR="#36a64f"
+          STATUS="SUCCESS ✅"
         else
-        COLOR="#ff0000"
-        STATUS="FAILED ❌"
+          COLOR="#ff0000"
+          STATUS="FAILED ❌"
         fi
         
         curl -X POST -H 'Content-type: application/json' --data "{
