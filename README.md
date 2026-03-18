@@ -12,6 +12,7 @@ This is a demo for Selenium, PyTest, Github actions, parallel testing, publish a
 - Publish Allure report to gh-pages after testing finished
 - Use Github Secrets to store password and use it in workflow
 - Use logic for updating Env while run workflow
+- Support run test with remote option(Selenium grid(AWS),default as False)
 ## See screenshot
 ![Run workflow Settings](images/run_workflow.png)
 ![Test result summary](images/result_summary.png)
@@ -32,4 +33,9 @@ pip install -r requirements.txt
 - Run with command
 ```
 pytest tests -n 2 --browser chrome --env qa -m testDemo1
+```
+
+- Run with remote option (Selenium grid on AWS)
+```
+pytest tests --remote -n 2 --browser chrome --env qa -m testDemo1
 ```
