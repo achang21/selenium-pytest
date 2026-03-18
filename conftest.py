@@ -26,9 +26,14 @@ def driver(request):
       Initialize WebDriver session based on CLI browser option
       """
     browser = request.config.getoption("--browser").lower()
+    use_remote = request.config.getoption("--remote")
+    remote_url = request.config.getoption("--remote_url")
+
+    if use_remote and not remote_url:
+        raise pytest.UsageError("--remote specified but --remote_url is missing. Example: --remote_url http://localhost:4444/wd/hub")
 
     if browser == "chrome":
-        options=ChromeOptions()
+        options = ChromeOptions()
         options.add_argument('--disable-extensions')
         options.add_argument('--no-sandbox')
         options.add_argument('--headless')
@@ -40,21 +45,23 @@ def driver(request):
             "profile.password_manager_enabled":False,
             "profile.password_manager_leak_detection":False,
         })
-        # Option1: Use ChromeDriverManager
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install()), options=options)
 
-        # # Option2: Use the downloaded chrome driver
-        # chrome_driver = Path(os.getcwd(),'drivers/chromedriver')
-        # driver=webdriver.Chrome(service=ChromeService(chrome_driver),options=options)
+        if use_remote:
+            # Use Remote WebDriver (Selenium Grid / standalone server)
+            driver = webdriver.Remote(command_executor=remote_url, options=options)
+        else:
+            # Local Chrome using webdriver-manager
+            driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install()), options=options)
 
     elif browser == "firefox":
         options = FirefoxOptions()
-        # Option1: Use FirefoxDriverManager
-        driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
+        # add any Firefox-specific options here if needed
 
-        # # Option2: Use the downloaded chrome driver
-        # ff_driver = Path(os.getcwd(),'drivers/geckodriver')
-        # driver=webdriver.Firefox(service=FirefoxService(ff_driver),options=options)
+        if use_remote:
+            driver = webdriver.Remote(command_executor=remote_url, options=options)
+        else:
+            driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
+
     else:
         raise Exception(f"[Error] ****** Browser type:{browser} not supported!")
 
@@ -120,6 +127,8 @@ def pytest_runtest_makereport(item, call):
 def pytest_addoption(parser):
     parser.addoption('--env',action='store',default='qa',help='Environment: qa/dev')
     parser.addoption('--browser',action='store',default='chrome',help='Browser: chrome/firefox/edge')
+    parser.addoption('--remote', action='store_true', default=False, help='Use remote WebDriver (Selenium Grid)')
+    parser.addoption('--remote_url', action='store', default='http://k8s-default-selenium-17049564dc-2104177235.eu-north-1.elb.amazonaws.com', help='Remote WebDriver URL, e.g. http://localhost:4444/wd/hub')
 
 @pytest.fixture(scope="session")
 def env(request):
@@ -139,3 +148,11 @@ def base_url(env):
     if not base_url:
         raise RuntimeError(f"BASE_URL not set in {env_file}")
     return base_url
+
+@pytest.fixture(scope="session")
+def remote(request):
+    return request.config.getoption('--remote')
+
+@pytest.fixture(scope="session")
+def remote_url(request):
+    return request.config.getoption('--remote_url')
